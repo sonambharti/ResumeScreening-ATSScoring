@@ -220,3 +220,7 @@ Hugging Face Spaces supports Gradio natively out-of-the-box.
 *   **Strategy Pattern (`parsers/`)**: `BaseResumeParser` defines an interface, and `PDFParser` and `DocxParser` implement concrete parsing algorithms chosen at runtime.
 *   **Factory Pattern (`parsers/factory.py`, `rag/embedding_service.py`)**: Instantiates parsers and embedding models based on file extensions or configuration settings.
 *   **Singleton Pattern (`config/settings.py`)**: Ensures configurations and environment setups are loaded once and shared globally.
+
+
+## Visit this project here:
+https://huggingface.co/spaces/sbharti1402/resume-ats-screener
