@@ -32,22 +32,47 @@ Hugging Face Spaces natively supports Gradio. It is the fastest way to get your 
    * Name: `EMBEDDING_PROVIDER`, Value: `huggingface`
    * Name: `EMBEDDING_MODEL_NAME`, Value: `sentence-transformers/all-MiniLM-L6-v2`
 
-### Step 3: Push Your Code
+### Step 3: Deploy and Push Your Code
+
+Hugging Face Spaces uses the `app.py` file in the root of the repository as its default entrypoint for the Gradio SDK. The repository is already configured with a root-level `app.py` that automatically runs the server and dynamically binds to the environment host (`0.0.0.0`) and port (`7860`) inside the Hugging Face container.
+
+You can deploy your code in one of two ways:
+
+#### Option A: Deploy Automatically via GitHub Actions (Recommended)
+This method automatically redeploys your app to Hugging Face Spaces whenever you push to your GitHub `main` branch.
+
+1. Generate a **Write** access token on Hugging Face:
+   * Go to [Hugging Face Token Settings](https://huggingface.co/settings/tokens).
+   * Click **New token**, set the type to **Write**, and name it (e.g., `github-actions-sync`). Copy the token.
+2. Add the token to your GitHub Repository:
+   * Go to your repository on GitHub.
+   * Click **Settings** -> **Secrets and variables** -> **Actions**.
+   * Click **New repository secret**.
+   * Name: `HF_TOKEN`, Value: Paste your Hugging Face write token.
+3. Push your code to GitHub:
+   * Commit and push your local files to GitHub.
+   * The workflow defined in `.github/workflows/deploy_hf.yml` will trigger automatically, pushing your repository changes to your Hugging Face Space repository.
+
+#### Option B: Deploy Manually via Hugging Face Git CLI
+If you prefer not to use GitHub Actions, you can push directly to Hugging Face:
+
 1. Clone the Space's repository locally:
    ```bash
    git clone https://huggingface.co/spaces/your-username/resume-ats-screener
    cd resume-ats-screener
    ```
-2. Copy all your workspace files (excluding `venv/`, `.env`, and local `.log`/`.faiss` files) into the cloned directory.
+2. Copy all workspace files (including `app.py`, `requirements.txt`, and the `resume_ats_agent/` directory, while excluding `venv/`, `.env`, and local `.log`/`.faiss` files) into the cloned directory.
 3. Commit and push the code:
    ```bash
    git add .
    git commit -m "Initial Gradio Deployment"
    git push
    ```
-Hugging Face will automatically read the `requirements.txt` file, install dependencies, and launch your server at `https://huggingface.co/spaces/your-username/resume-ats-screener`.
+
+Hugging Face will automatically read the `requirements.txt` file, install the required libraries (including `sentence-transformers`), and launch your server!
 
 ---
+
 
 ## 🐳 Option 2: Docker Containerization (AWS ECS / GCP Cloud Run)
 

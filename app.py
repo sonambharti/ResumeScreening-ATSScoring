@@ -28,7 +28,9 @@ def main():
         app = create_gradio_app()
         
         # Launch Gradio server
-        server_name = os.getenv("GRADIO_SERVER_NAME", "127.0.0.1")
+        # On Hugging Face Spaces or Docker, we should bind to 0.0.0.0 so external requests are proxied properly.
+        # Locally we can bind to 127.0.0.1 or 0.0.0.0. We default to 0.0.0.0 to cover all hosting models.
+        server_name = os.getenv("GRADIO_SERVER_NAME", "0.0.0.0")
         server_port = int(os.getenv("GRADIO_SERVER_PORT", 7860))
         
         logger.info(f"Launching Gradio UI on {server_name}:{server_port}...")
